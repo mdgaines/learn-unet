@@ -1,0 +1,2 @@
+name,n_channels,use_slope,use_hillshade,spectral_bands,test_iou,test_f1,test_precision,test_recall,notes
+baseline_indices_only,4,False,False,"[6, 7, 8, 9]",0.8139,0.8974,0.8187,0.9928,"Indices only [6,7,8,9], 30 epochs, CPU no DEM, no augmentation ablation"

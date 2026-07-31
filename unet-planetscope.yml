@@ -1,0 +1,59 @@
+# NOTE: After building this env, install PyTorch manually:
+#   conda activate unet-planetscope
+#   pip3 install torch torchvision 
+
+name: unet-planetscope
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.12
+
+  # ── OpenMP / MKL conflict prevention ──────────────────────────────────────
+  # PyTorch (installed via pip) bundles its own OpenMP (libiomp5md.dll).
+  # conda-forge numpy/scipy default to Intel MKL which ships a second OpenMP
+  # (libomp.dll). Having both causes a kernel crash on Windows (OMP Error #15).
+  # nomkl + blas=*=openblas forces numpy/scipy to use OpenBLAS instead,
+  # leaving PyTorch's OpenMP as the only one in the process.
+  - nomkl
+  - blas=*=openblas
+  
+  # ── Core scientific stack ─────────────────────────────────────────────────
+  - numpy>=1.26
+  - scipy>=1.12
+  - scikit-learn>=1.4
+  - scikit-image>=0.22
+  - matplotlib>=3.8
+  - pandas>=2.2
+
+  # ── Geospatial / remote sensing ───────────────────────────────────────────
+  - rasterio>=1.3
+  - rioxarray>=0.15
+  - geopandas>=0.14
+  - pyproj>=3.6
+  - shapely>=2.0
+  - fiona>=1.9
+
+  # ── Image I/O ─────────────────────────────────────────────────────────────
+  - pillow>=10.0
+  - tifffile
+
+  # ── Notebook & experiment tracking ────────────────────────────────────────
+  - jupyterlab>=4.0
+  - ipywidgets
+  - tqdm
+  - tensorboard
+
+  # ── Visualisation ─────────────────────────────────────────────────────────
+  - seaborn
+
+  # ── Pip packages (torch installed separately after env creation) ──────────
+  - pip
+  - pip:
+    - torchinfo
+    - torchmetrics>=1.3
+    - segmentation-models-pytorch
+    - albumentations>=1.4
+    - einops
